@@ -8,27 +8,29 @@ import java.util.ArrayList;
 //  perhaps it may be worthwhile to augment this reporter
 //  with requiring line numbers.
 public class ErrorReporter {
-	private List<String> _errorQueue;
+	private List<CompilerError> _errorQueue;
 	
 	public ErrorReporter() {
-		this._errorQueue = new ArrayList<String>();
+		this._errorQueue = new ArrayList<CompilerError>();
 	}
 	
 	public boolean hasErrors() {
 		// TODO: Check if errorQueue is non-empty
-		return false;
+		return !_errorQueue.isEmpty();
 	}
 	
-	public void outputErrors() {
+	public void outputErrors(boolean stackTrace) {
 		// TODO: output all errors in the errorQueue
+		for (CompilerError err : _errorQueue){
+			System.out.println(err.toString(stackTrace));
+		}
+	}
+
+	public void outputErrors(){
+		outputErrors(false);
 	}
 	
-	public void reportError(String ...error) {
-		StringBuilder sb = new StringBuilder();
-		
-		for(String s : error)
-			sb.append(s);
-		
-		_errorQueue.add(sb.toString());
+	public void reportError(CompilerError e) {
+		_errorQueue.add(e);
 	}
 }
